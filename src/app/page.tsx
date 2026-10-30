@@ -2,7 +2,7 @@ import { supabase } from "@/lib/supabase";
 
 // Fetch fresh data on every visit. Without this, Vercel can render the page
 // once at build time and keep showing that old snapshot.
-export const dynamic = "force-dynamic";
+
 
 type RequestRow = {
   id?: number | string;
