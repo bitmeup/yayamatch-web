@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { supabase } from '@/lib/supabase'
 
 export default function Home() {
   const [form, setForm] = useState({
@@ -9,9 +10,19 @@ export default function Home() {
     need: '',
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    alert(`Request received!\nFamily: ${form.familyName}\nLocation: ${form.location}\nNeed: ${form.need}`)
+    const { error } = await supabase.from('requests').insert({
+      family_name: form.familyName,
+      location: form.location,
+      need: form.need,
+    })
+    if (error) {
+      alert('Error: ' + error.message)
+    } else {
+      alert('Request saved!')
+      setForm({ familyName: '', location: '', need: '' })
+    }
   }
 
   return (
